@@ -1,0 +1,237 @@
+¿Cómo configuro un masternode? (Quark)
+
+Use las siguientes instrucciones para configurar un masternode para una moneda basada en Quark en Ubuntu Server 18.04.
+
+Asegúrese de tener los siguientes requisitos.
+
+- Cantidad requerida de monedas para configurar el masternode.
+- Una billetera para guardar tus monedas.
+- Un servidor o VPS.
+
+
+Prepara tu VPS
+Instale Ubuntu Server 18.04 en un VPS.
+
+Actualiza tu máquina Ubuntu.
+
+sudo apt-get update
+sudo apt-get upgrade
+
+Instalar las dependencias requeridas.
+
+sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libboost-all-dev libboost-program-options-dev
+sudo apt-get install libminiupnpc-dev libzmq3-dev libprotobuf-dev protobuf-compiler unzip software-properties-common
+
+Install Berkeley DB.
+
+sudo add-apt-repository ppa:bitcoin/bitcoin
+sudo apt-get update
+sudo apt-get install libdb4.8-dev libdb4.8++-dev
+
+Descargue el demonio y las herramientas de MyCoin. (Disponible para una moneda pagada)
+
+cd /root
+git clone https://github.com/allforonebusiness/binaries-linux.git
+
+Install the daemon and tools.
+
+sudo mv /root/binaries-linux/allforonebusinessd /usr/bin/allforonebusinessd
+sudo mv /root/binaries-linux/allforonebusiness-cli /usr/bin/allforonebusiness-cli
+sudo mv /root/binaries-linux/allforonebusiness-tx /usr/bin/allforonebusiness-tx
+sudo mv /root/binaries-linux/allforonebusiness-qt /usr/bin/allforonebusiness-qt
+sudo chmod a+x /usr/bin/allforonebusinessd
+sudo chmod a+x /usr/bin/allforonebusiness-cli
+sudo chmod a+x /usr/bin/allforonebusiness-tx
+sudo chmod a+x /usr/bin/allforonebusiness-qt
+
+
+cd $HOME/.allforonebusiness
+if there are old block data , please delete all files in it.
+
+Crea el archivo de configuración.
+
+mkdir $HOME/.allforonebusiness
+nano $HOME/.allforonebusiness/allforonebusiness.conf
+
+Pegue las siguientes líneas en allforonebusiness.conf.
+
+#----
+rpcuser=rpc_allforonebusiness
+rpcpassword=69c863e3356d3dae95df454a1
+rpcallowip=127.0.0.1
+#----
+listen=1
+server=1
+daemon=1
+txindex=1
+maxconnections=64
+addnode=144.202.57.217
+addnode=207.148.8.156
+addnode=104.207.143.110
+addnode=108.61.242.8
+addnode=144.202.48.63
+addnode=45.76.26.159
+addnode=45.76.226.90
+addnode=144.202.55.30
+addnode=144.202.49.23
+#----
+masternode=1
+masternodeprivkey=66BtfvdmDApzPDzU6nUZMEqb71sAVsfHRV8ipCcLy4K1Cak5BGx  
+externalip=<REPLACE_WITH_EXTERNAL_IP_OF_VPS> 
+#----
+
+Deje los campos "masternode" y "masternodeprivkey" comentados.
+
+Reemplace el texto "REPLACE_WITH_EXTERNAL_IP_OF_VPS" con la dirección IP externa de su VPS.
+
+Ejemplo externalip=136.144.171.201
+
+Inicie su nodo con el siguiente comando.
+
+allforonebusinessd
+
+Espere hasta que el demonio haya terminado de descargar la cadena de bloques.
+
+
+Enviar la garantía (1000AFO)
+Abra su billetera y espere hasta que su billetera haya descargado la cadena de bloques.
+
+Vaya a "Herramientas".
+Haga clic en "Consola de depuración".
+Esta es la consola donde ejecutará todos los comandos.
+
+Cree una nueva clave privada masternode.
+
+copie y pegue este comando en la consola:
+
+createmasternodekey
+
+Example output
+
+7VatfYVk5fFMTymPDhgSURAESDACJhWpd89WHGoh35d9fbLQPj5
+
+Muestre su dirección colateral.
+
+copie y pegue este comando en la consola:
+
+getaccountaddress "MN1"
+
+Example output
+
+TDC99hZmSmYEcBu4WcxA2TCT6KBqHB6Hos
+
+Transfiera la cantidad requerida de monedas a la “dirección colateral” que creó utilizando el comando “getaccountaddress" MN1 "”.
+
+Espere hasta que la transacción tenga las confirmaciones de masternode requeridas.
+
+Vaya a "Herramientas".
+Haga clic en "Consola de depuración".
+Ingrese el siguiente comando.
+
+getmasternodeoutputs
+
+Example output
+
+
+[
+  {
+    "txhash": "506a242ccbfd2555bcd9cff5f4041752c911f39cb2905acc83ccfe0cf8808df9",
+    "outputidx": 1
+  }
+]
+
+Vaya a "Herramientas".
+Haga clic en "Abrir archivo de configuración de Masternode".
+
+Modifique la siguiente línea y péguela en el bloc de notas.
+
+MN1 136.144.171.201:9999 7VatfYVk5fFMTymPDhgSURAESDACJhWpd89WHGoh35d9fbLQPj5 506a242ccbfd2555bcd9cff5f4041752c911f39cb2905acc83ccfe0cf8808df9 1
+
+MN1 - Alias ??para tu masternode.
+
+136.144.171.201 - Dirección IP externa de su VPS.
+
+9999 por 1188 - Reemplace con el puerto P2P de su moneda.
+
+7VatfYVk5fFMTymPDhgSURAESDACJhWpd89WHGoh35d9fbLQPj5 - Masternode clave privada del comando “createmasternodekey”.
+
+506a242ccbfd2555bcd9cff5f4041752c911f39cb2905acc83ccfe0cf8808df9 - Valor "txhash" del comando “getmasternodeoutputs”.
+
+1 - Valor “outputidx” del comando “getmasternodeoutputs”.
+
+
+Guarde el archivo y cierre el bloc de notas.
+
+Cierra tu billetera.
+
+
+Registra tu masternode
+Coloque la clave privada masternode en el archivo de configuración de su masternode y descomente los valores "masternode" y "masternodeprivkey".
+
+Ejemplo de configuración
+
+#----
+rpcuser=rpc_allforonebusiness
+rpcpassword=69c863e3356d3dae95df454a1
+rpcallowip=127.0.0.1
+#----
+listen=1
+server=1
+daemon=1
+txindex=1
+maxconnections=64
+
+addnode=144.202.57.217
+addnode=207.148.8.156
+addnode=104.207.143.110
+addnode=108.61.242.8
+addnode=144.202.48.63
+addnode=45.76.26.159
+addnode=45.76.226.90
+addnode=144.202.55.30
+addnode=144.202.49.23
+
+#----
+masternode=1
+masternodeprivkey=7VatfYVk5fFMTymPDhgSURAESDACJhWpd89WHGoh35d9fbLQPj5
+externalip=136.144.171.201
+#----
+
+
+Reinicie su masternode con los siguientes comandos.
+
+allforonebusiness-cli stop
+allforonebusinessd
+
+Abre tu billetera.
+
+Ir a la configuración".
+Haz clic en "Desbloquear billetera" en caso de que este bloqueada.
+
+Ingrese la frase de contraseña de su billetera y desbloquee su billetera.
+
+Vaya a "Herramientas".
+Haga clic en "Consola de depuración".
+
+Inicie su masternode con el comando
+
+startmasternode alias false MN1
+
+Su masternode ahora está registrado y aparecerá en la lista de masternode.
+
+Puede verificar el estado de su masternode usando el comando "getmasternodestatus".
+
+allforonebusiness-cli getmasternodestatus
+
+Ejemplo:
+
+
+{
+  "txhash": "506a242ccbfd2555bcd9cff5f4041752c911f39cb2905acc83ccfe0cf8808df9",
+  "outputidx": 1,
+  "netaddr": "136.144.171.201:9999",
+  "addr": "TDC99hZmSmYEcBu4WcxA2TCT6KBqHB6Hos",
+  "status": 4,
+  "message": "Masternode successfully started"
+}
+
