@@ -1,0 +1,19 @@
+Actualizacion MN 18.04 update 4.1.2.1
+
+allforonebusiness-cli stop
+rm -r binaries-linux-18.04
+
+git clone https://github.com/allforonebusiness/binaries-linux-18.04
+
+sudo mv ~/binaries-linux-18.04/allforonebusinessd /usr/local/bin/allforonebusinessd
+sudo mv ~/binaries-linux-18.04/allforonebusiness-tx /usr/local/bin/allforonebusiness-tx
+sudo mv ~/binaries-linux-18.04/allforonebusiness-qt /usr/local/bin/allforonebusiness-qt
+
+sudo chmod a+x /usr/local/bin/allforonebusinessd
+sudo chmod a+x /usr/local/bin/allforonebusiness-tx
+sudo chmod a+x /usr/local/bin/allforonebusiness-qt
+
+allforonebusinessd
+allforonebusiness-cli getinfo (verificar que diga "version": 4010201)
+allforonebusiness-cli getmasternodestatus
+
