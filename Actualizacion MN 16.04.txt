@@ -1,0 +1,13 @@
+Actualizacion MN 16.04
+
+wget -q https://raw.githubusercontent.com/allforonebusiness/install-mn/master/AFO_Update_MN.sh
+
+chmod +x AFO_Update_MN.sh
+
+bash AFO_Update_MN.sh
+
+allforonebusiness-cli getinfo 
+
+(Debe mostrar la "Version 4010201")
+
+allforonebusiness-cli getmasternodestatus
