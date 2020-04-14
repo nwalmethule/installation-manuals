@@ -41,6 +41,18 @@ Lanza la billetera escribiendo:
 
 allforonebusiness-qt&
 
+----- DESPUÉS INSTALACIÓN -----
+
+después de la instalación hay que escribir en el terminal el programa:
+
+./refreshnodes.sh
+
+o
+
+bash refreshnodes.sh
+
+
+Esto necesita para mejorar las conexiones.
 
 ----- REFERENCES  -----
 
