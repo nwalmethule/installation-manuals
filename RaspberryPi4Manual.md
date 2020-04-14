@@ -37,8 +37,22 @@ launch the wallet by typing:
 
 allforonebusiness-qt&
 
+----- POSTINSTALLATION -----
+
+After the installation need to run in a terminal the script:
+
+./refreshnodes.sh
+
+or 
+
+bash refreshnodes.sh
+
+to add the new nodes and improve the connections.
+
 -----  REFERENCE  ------
 
 Written by Davide Lustro
 
-e-mail buddandroid@gmail.com
+e-mail: buddandroid@gmail.com
+
+Don't be shy to contact me I will be happy to answer.
